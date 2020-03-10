@@ -1,11 +1,9 @@
 #include "visuals.h"
-#include "../../menu/fgui_menu.hpp"
+#include "../../menu/menu.hpp"
 
 void visuals::run() {
 	auto local_player = reinterpret_cast<player_t*>(interfaces::entity_list->get_client_entity(interfaces::engine->get_local_player()));
 
-	if (interfaces::engine->is_taking_screenshot()) // hehe
-		return;
 
 	if (!local_player)
 		return;
@@ -51,7 +49,6 @@ void visuals::player_esp(player_t* entity)
 		return;
 
 
-	// name esp
 	if (cfg.name_esp == 1)
 	{
 		render::draw_text_string(b_box.x + (b_box.w / 2), b_box.y - 15, render::fonts::esp_font, info.name, true, color(255, 255, 255, cfg.esp_opacity));

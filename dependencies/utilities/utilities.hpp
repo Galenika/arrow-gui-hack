@@ -5,6 +5,12 @@
 
 using ServerRankRevealAll2 = char(__cdecl*)(int*);
 namespace utilities {
+	template<unsigned int IIdx, typename TRet, typename ... TArgs>
+	static auto callvfunc(void* thisptr, TArgs ... argList) -> TRet
+	{
+		using Fn = TRet(__thiscall*)(void*, decltype(argList)...);
+		return (*static_cast<Fn**>(thisptr))[IIdx](thisptr, argList...);
+	}
 	template<typename FuncType>
 	__forceinline static FuncType call_virtual(void* ppClass, int index) {
 		int* pVTable = *(int**)ppClass;

@@ -2,8 +2,7 @@
 #include "../../dependencies/common_includes.hpp"
 #include "../features/features.hpp"
 #include "../features/misc/engine_prediction.hpp"
-#include "../menu/FGUI/FGUI.hh"
-#include "../menu/fgui_menu.hpp"
+#include "../menu/menu.hpp"
 #include "../features/misc/backtrack.h"
 /*how to get entity:
 
@@ -177,6 +176,7 @@ void __stdcall hooks::scene_end::hook()
 	}
 	return scene_end_original(interfaces::render_view);
 }
+bool fasz2 = true;
 bool __fastcall hooks::create_move::hook(void* ecx, void* edx, int input_sample_frametime, c_usercmd* cmd) {
 	create_move_original(input_sample_frametime, cmd);
 
@@ -203,8 +203,15 @@ bool __fastcall hooks::create_move::hook(void* ecx, void* edx, int input_sample_
 			utilities::ServerRankRevealAll();
 	}
 
+	if (fasz2)
+	{
+		interfaces::engine->execute_cmd("clear");
+		interfaces::engine->execute_cmd("echo obelus-csgo");
+		interfaces::engine->execute_cmd("echo .");
+		fasz2 = false;
+	}
 
-	prediction::start(cmd); {
+	prediction::start(cmd); { 
 		backtracking->legitBackTrack(cmd, csgo::local_player);
 		//aimbot::run(cmd);
 
@@ -212,10 +219,6 @@ bool __fastcall hooks::create_move::hook(void* ecx, void* edx, int input_sample_
 
 	math::correct_movement(old_viewangles, cmd, old_forwardmove, old_sidemove);
 	math::Clamp(cmd->viewangles);
-
-	cmd->viewangles.x = std::clamp(cmd->viewangles.x, -89.0f, 89.0f);
-	cmd->viewangles.y = std::clamp(cmd->viewangles.y, -180.0f, 180.0f);
-	cmd->viewangles.z = 0.0f;
 
 	return false;
 }
@@ -225,24 +228,14 @@ void __stdcall hooks::paint_traverse::hook(unsigned int panel, bool force_repain
 
 	switch (panel_to_draw) {
 	case fnv::hash("MatSystemTopPanel"):
-		
-		//render::draw_text_string(10, 10, render::fonts::watermark_font, "csgo-cheat", false, color::white(255));
-
-		fgui::handler::render_window();
 
 		if (!interfaces::engine->is_taking_screenshot())
+		{
 			menu.run();
-		
-		//gui::initialize();
-
-		visuals::run();
+			visuals::run();
+		}
 
 
-
-
-		/*if (menu.config.engine_radar) {
-			entity->spotted() = true;
-		}*/
 		break;
 	}
 
@@ -250,7 +243,7 @@ void __stdcall hooks::paint_traverse::hook(unsigned int panel, bool force_repain
 }
 
 void __stdcall hooks::lock_cursor::hook() {
-	if (cfg.menuopened) {
+	if (cfg.menuopened && cfg.lock_cursor) {
 		interfaces::surface->unlock_cursor();
 		return;
 
@@ -265,8 +258,7 @@ void __stdcall hooks::lock_cursor::hook() {
 
 int __fastcall hooks::in_key_event::hook(void* ecx, int edx, int event_code, int key_num, const char* current_binding) {
 
-	//if (vars::container["#window"]->get_state())
-		//return 0;
+
 
 	return in_key_event_original(event_code, key_num, current_binding);
 }           

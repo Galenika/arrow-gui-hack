@@ -1,4 +1,4 @@
-#include "fgui_menu.hpp"
+#include "menu.hpp"
 config cfg;
 std::vector<menuitems_t> menuitems;
 cmenu menu;
@@ -11,18 +11,10 @@ float cat_2;
 float cat_3;
 float cat_4;
 int currentselecteditem = 0;
-bool fasz2 = true;
 int menu_alpha;
 int menu_pos;
 void cmenu::run()
 {
-	if (fasz2)
-	{
-		interfaces::engine->execute_cmd("clear");
-		interfaces::engine->execute_cmd("echo obelus-csgo");
-		interfaces::engine->execute_cmd("echo .");
-		fasz2 = false;
-	}
 	static bool _pressed = true;
 
 	if (!_pressed && GetAsyncKeyState(VK_INSERT))
@@ -45,7 +37,7 @@ void cmenu::run()
 	{
 		menu_alpha = max(menu_alpha - 7, 0);
 		if (cfg.menu_anim)
-		menu_pos = max(menu_alpha - 4, 0);
+			menu_pos = max(menu_alpha - 4, 0);
 		else
 			menu_pos = 255;
 	}
@@ -94,24 +86,21 @@ void cmenu::run()
 void cmenu::renderbackground()
 {
 
-	render::draw_filled_rect(x   + menu_pos, y, w, h, color(30, 30, 30, menu_alpha));
-	render::draw_outline(x   + menu_pos, y, w, h, color(0, 0, 0, menu_alpha));
-	render::draw_filled_rect(x   + menu_pos, y, w, 15, color(25, 25, 25, menu_alpha));
-	render::draw_outline(x   + menu_pos, y, w, 15, color(0, 0, 0, menu_alpha));
-	render::draw_text_string(x   + menu_pos + (w / 2), y + 1, render::fonts::watermark_font, "obelus", true, color(220, 220, 220, menu_alpha));
+	render::draw_filled_rect(x + menu_pos, y, w, h, color(30, 30, 30, menu_alpha));
+	render::draw_outline(x + menu_pos, y, w, h, color(0, 0, 0, menu_alpha));
+	render::draw_filled_rect(x + menu_pos, y, w, 15, color(25, 25, 25, menu_alpha));
+	render::draw_outline(x + menu_pos, y, w, 15, color(0, 0, 0, menu_alpha));
+	render::draw_text_string(x + menu_pos + (w / 2), y + 1, render::fonts::watermark_font, "obelus", true, color(220, 220, 220, menu_alpha));
 
 	//render::draw_text_string(0, 0, render::fonts::watermark_font, std::to_string(currentselecteditem), false, color(220, 220, 220, 255));
 
 
-	render::draw_filled_rect(x   + menu_pos + 1, y + 15 + (15 * currentselecteditem), w - 1 - 1, 15 - 1, color(50, 50, 50, menu_alpha / 2));
+	render::draw_filled_rect(x + menu_pos + 1, y + 15 + (15 * currentselecteditem), w - 1 - 1, 15 - 1, color(50, 50, 50, menu_alpha / 2));
 	//render::draw_outline(x + menu_pos, y + 15 + (15 * currentselecteditem), w, 15, color(0, 0, 0, 255));
 }
 void cmenu::addchildren()
 {
-	/*
-	* begin pushing back needed controls
-	*/
-	//		menuitems.push_back(menuitems_t("backtrack", &cfg.backtrack));
+
 	menuitems.push_back(menuitems_t("legit", &cat_0, menuitemtype::section));
 
 	if (cat_0)
@@ -148,6 +137,7 @@ void cmenu::addchildren()
 		menuitems.push_back(menuitems_t("engine radar", &cfg.radar));
 		menuitems.push_back(menuitems_t("rank revealer", &cfg.rank_revealer));
 		menuitems.push_back(menuitems_t("menu animation", &cfg.menu_anim));
+		menuitems.push_back(menuitems_t("lock cursor", &cfg.lock_cursor));
 		//menuitems.push_back(menuitems_t("slider", &idk2, menuitemtype::slider, 0, 100));
 	}
 
@@ -168,7 +158,7 @@ void cmenu::renderchildren()
 		{
 			render::draw_text_string(x + menu_pos + 8, y + 16 + (15 * i), render::fonts::watermark_font, menuitems[i].name, false, color(170, 170, 170, menu_alpha));
 			render::draw_text_string_alternative(x + menu_pos + 8 + 189, y + 16 + (15 * i), render::fonts::watermark_font, *menuitems[i].value ? "on" : "off", true, *menuitems[i].value ? color(10, 220, 10, menu_alpha) : color(220, 10, 10, menu_alpha));
-			
+
 
 		}
 		else
@@ -199,7 +189,7 @@ void cmenu::handlechildren()
 				if (GetAsyncKeyState(0x0d) & 1 || GetAsyncKeyState(0x0d) & 1 && cfg.menuopened)
 					*menuitems[i].value = !*menuitems[i].value;
 
-					
+
 
 			} break;
 			case menuitemtype::slider:
@@ -246,16 +236,4 @@ void cmenu::handleinput()
 	}
 
 }
-bool fasz = true;
-void gui::initialize()  // i have this shit still cuz u may wanna use fgui l0l
-{
 
-	fgui::element_font title_font = { "tahoma", 11, fgui::external::font_flags::SHADOW , false };
-	REGISTER_NOTIFICATIONS(title_font);
-	if (fasz)
-	{
-		fgui::handler::call_notification("welcome back", fgui::animation_type::FADE);
-		fasz = false;
-	}
-
-}

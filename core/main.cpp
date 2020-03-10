@@ -1,8 +1,5 @@
 #include "../dependencies/common_includes.hpp"
-#include "features/features.hpp"
-#include "menu/fgui_renderer.hpp"
-#include "menu/fgui_input.hpp"
-#include "menu/fgui_menu.hpp"
+#include "menu/menu.hpp"
 
 class obelus_loader_info {
 
@@ -18,9 +15,6 @@ DWORD WINAPI initialize(void* instance) {
 	try {
 		interfaces::initialize();
 		hooks::initialize();
-		fgui_input::initialize();
-		fgui_renderer::initialize();
-		gui::initialize();
 		render::setup();
 	}
 

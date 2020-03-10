@@ -28,7 +28,6 @@ namespace render {
 	void draw_rect(int x, int y, int w, int h, color color);
 	void draw_filled_rect(int x, int y, int w, int h, color colour);
 	void draw_outline(int x, int y, int w, int h, color colour);
-	void draw_textured_polygon(int n, fgui::vertex* vertice, color col);
 	void draw_circle(int x, int y, int r, int s, color col);
 	void get_text_size(unsigned long font, std::string string, int w, int h);
 

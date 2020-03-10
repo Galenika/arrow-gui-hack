@@ -65,9 +65,6 @@ namespace interfaces {
 			}
 		
 
-			if (!result)
-				throw std::runtime_error(interface_name.c_str());
-
 			return reinterpret_cast<ret*>(result);
 		}
 

@@ -111,14 +111,6 @@ void render::draw_outline(int x, int y, int w, int h, color colour) {
 	interfaces::surface->draw_outlined_rect(x, y, w, h);
 }
 
-void render::draw_textured_polygon(int n, fgui::vertex* vertice, color col) {
-	static int texture_id = interfaces::surface->create_new_texture_id(true);
-	static unsigned char buf[4] = { 255, 255, 255, 255 };
-	interfaces::surface->set_texture_rgba(texture_id, buf, 1, 1);
-	interfaces::surface->set_drawing_color(col.r, col.g, col.b, col.a);
-	interfaces::surface->set_texture(texture_id);
-	interfaces::surface->draw_polygon(n, vertice);
-}
 
 void render::draw_circle(int x, int y, int r, int s, color col) {
 	float Step = M_PI * 2.0 / s;
