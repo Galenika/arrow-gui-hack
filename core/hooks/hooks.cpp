@@ -89,7 +89,7 @@ bool is_behind_smoke(vec3_t start_pos, vec3_t end_pos) {
 	static line_goes_through_smoke line_goes_through_smoke_fn = 0;
 
 	if (!line_goes_through_smoke_fn)
-		line_goes_through_smoke_fn = reinterpret_cast<line_goes_through_smoke>(utilities::pattern_scan(GetModuleHandleA("client_panorama.dll"), "55 8B EC 83 EC 08 8B 15 ? ? ? ? 0F 57 C0"));
+		line_goes_through_smoke_fn = reinterpret_cast<line_goes_through_smoke>(utilities::pattern_scan(GetModuleHandleA("client.dll"), "55 8B EC 83 EC 08 8B 15 ? ? ? ? 0F 57 C0"));
 
 	if (line_goes_through_smoke_fn)
 		return line_goes_through_smoke_fn(start_pos, end_pos);

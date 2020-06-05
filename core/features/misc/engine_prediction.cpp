@@ -11,7 +11,7 @@ void prediction::start(c_usercmd* cmd) {
 
 	static bool initialized = false;
 	if (!initialized) {
-		prediction_random_seed = *reinterpret_cast<int**>(utilities::pattern_scan(GetModuleHandleA("client_panorama.dll"), sig_prediction_random_seed) + 2);
+		prediction_random_seed = *reinterpret_cast<int**>(utilities::pattern_scan(GetModuleHandleA("client.dll"), sig_prediction_random_seed) + 2);
 		initialized = true;
 	}
 

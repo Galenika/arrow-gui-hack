@@ -8,7 +8,7 @@ extern void utilities::ServerRankRevealAll()
 	static uint8_t* fnServerRankRevealAll;
 
 	if (!fnServerRankRevealAll)
-		fnServerRankRevealAll = utilities::pattern_scan(GetModuleHandleW(L"client_panorama.dll"),
+		fnServerRankRevealAll = utilities::pattern_scan(GetModuleHandleW(L"client.dll"),
 			"55 8B EC 8B 0D ? ? ? ? 85 C9 75 28 A1 ? ? ? ? 68 ? ? ? ? 8B 08 8B 01 FF 50 04 85 C0 74 0B 8B C8 E8 ? ? ? ? 8B C8 EB 02 33 C9 89 0D ? ? ? ? 8B 45 08");
 
 	int v[3] = { 0,0,0 };
